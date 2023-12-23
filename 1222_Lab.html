@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dice Roller</title>
+  <style>
+    /* Add some styling if needed */
+  </style>
+</head>
+<body>
+
+<button id="rollButton">Roll 12 Dice</button>
+<div id="result"></div>
+
+<script>
+function start() {
+  var button = document.getElementById("rollButton");
+  button.addEventListener("click", rollDice, false);
+}
+
+function rollDice() {
+  var resultDiv = document.getElementById("result");
+  resultDiv.innerHTML = ""; // Clear previous results
+
+  var frequencyTable = [0, 0, 0, 0, 0, 0]; // Initialize frequency table for faces 1 to 6
+
+  for (var i = 0; i < 12; i++) {
+    var dieNumber = i + 1;
+    var face = Math.floor(Math.random() * 6) + 1;
+    setImage(dieNumber, face);
+    frequencyTable[face - 1]++;
+  }
+
+  updateFrequencyTable(frequencyTable);
+}
+
+function setImage(dieNumber, face) {
+  var resultDiv = document.getElementById("result");
+  var imagePath = "die" + face + ".png";
+  var imgElement = document.createElement("img");
+  imgElement.src = imagePath;
+  imgElement.alt = "Die " + face;
+  resultDiv.appendChild(imgElement);
+}
+
+function updateFrequencyTable(frequencyTable) {
+  var resultDiv = document.getElementById("result");
+  resultDiv.innerHTML += "<h2>Frequency Table</h2>";
+
+  for (var i = 0; i < frequencyTable.length; i++) {
+    var face = i + 1;
+    var probability = (frequencyTable[i] / 12) * 100;
+    resultDiv.innerHTML += "Face " + face + ": " + frequencyTable[i] + " times (Probability: " + probability.toFixed(2) + "%)<br>";
+  }
+}
+
+window.addEventListener("load", start, false);
+</script>
+
+</body>
+</html>
